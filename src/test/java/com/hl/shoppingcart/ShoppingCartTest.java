@@ -32,6 +32,12 @@ public class ShoppingCartTest {
 		assertEquals(31.98, basket.getTotal(), 0.0);
 	}
 	
+	@Test
+	public void totalOfMoreThanOneItemAndOneQuantity() {
+		ShoppingCart basket = buildCartWithItems(new Item(15.99, 2), new Item(49.99, 2));
+		assertEquals(131.96, basket.getTotal(), 0.0);
+	}
+	
 	private ShoppingCart buildCartWithItems(Item ...item) {		
 		return new ShoppingCart(Arrays.asList(item));
 	}
