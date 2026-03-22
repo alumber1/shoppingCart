@@ -5,6 +5,9 @@ package com.hl.shoppingcart;
  */
 public class Item {
 
+	private static final double MIN_PRICE = 0.0;
+	private static final int MIN_QUANTITY = 1;
+	
 	private double price = 0;
 	private int quantity = 0;
 
@@ -18,11 +21,11 @@ public class Item {
 	 */
 	public Item(double price, int quantity) {
 
-		if (price < 0) {
+		if (price < MIN_PRICE) {
 			throw new IllegalArgumentException("Price cannot be negative");
 		}
 
-		if (quantity <= 0) {
+		if (quantity < MIN_QUANTITY) {
 			throw new IllegalArgumentException("Quantity cannot be negative");
 		}
 

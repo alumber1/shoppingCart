@@ -9,6 +9,7 @@ import java.util.List;
 public class ShoppingCart {
 
 	private final List<Item> items;
+	private static final double EMPTY_CART_TOTAL = 0.0;
 
 	/**
 	 * Constructs a new ShoppingCart with the given items.
@@ -27,7 +28,7 @@ public class ShoppingCart {
 	public double getTotal() {
 
 		if(items == null) {
-			return 0.0;
+			return EMPTY_CART_TOTAL;
 		}
 
 		return items.stream().mapToDouble(item -> item.getItemTotal()).sum();
