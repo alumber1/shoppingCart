@@ -6,7 +6,13 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
+/**
+ * Unit tests for the ShoppingCart class.
+ */
 public class ShoppingCartTest {
+
+
+	// ===== Happy Path Tests =====
 
 	@Test
 	public void shouldReturnZeroWhenCartIsEmpty() {
@@ -38,22 +44,54 @@ public class ShoppingCartTest {
 		assertEquals(131.96, basket.getTotal(), 0.0);
 	}
 
+	// ===== Validation / Edge Case Tests =====
+
+	/**
+	 * For demonstration purposes, this test throws an exception for negative price.
+	 * In a production scenario, we could instead treat negative values as zero to handle gracefully.
+	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void shouldThrowExceptionForNegativePrice() {
-		ShoppingCart basket = buildCartWithItems(new Item(-49.99, 1));
+		buildCartWithItems(new Item(-49.99, 1));
 	}
 
+	/**
+	 * For demonstration purposes, this test throws an exception for negative quantity.
+	 * In a production scenario, we could instead treat negative values as zero to handle gracefully.
+	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void shouldThrowExceptionForNegativeQuantity() {
-		ShoppingCart basket = buildCartWithItems(new Item(49.99, -1));
+		buildCartWithItems(new Item(49.99, -1));
 	}
 
+	/**
+	 * For demonstration purposes, this test throws an exception for zero quantity.
+	 * In a production scenario, we could instead treat zero values as zero or skip the item.
+	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void shouldThrowExceptionForZeroQuantity() {
-		ShoppingCart basket = buildCartWithItems(new Item(49.99, 0));
+		buildCartWithItems(new Item(49.99, 0));
 	}
-	
-	private ShoppingCart buildCartWithItems(Item ...item) {		
-		return new ShoppingCart(Arrays.asList(item));
+
+	/**
+	 * Handling null gracefully by returning 0 for the total.
+	 * In a stricter design, we could throw an exception instead, but here we treat null as an empty cart.
+	 */
+	@Test
+	public void shouldReturnZeroForNull() {
+		ShoppingCart basket = new ShoppingCart(null);
+		assertEquals(0.0, basket.getTotal(), 0.0);
+	}
+
+	// ===== Helper Methods =====
+
+	/**
+	 * Helper method to create a new shopping cart with the given items.
+	 *
+	 * @param items the items to include in the shopping cart
+	 * @return a new ShoppingCart containing the given items
+	 */
+	private ShoppingCart buildCartWithItems(Item ...items) {		
+		return new ShoppingCart(Arrays.asList(items));
 	}
 }
