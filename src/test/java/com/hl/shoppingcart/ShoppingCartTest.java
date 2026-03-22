@@ -9,31 +9,31 @@ import org.junit.Test;
 public class ShoppingCartTest {
 
 	@Test
-	public void totalOfEmptyBasket() {
+	public void shouldReturnZeroWhenCartIsEmpty() {
 		ShoppingCart basket = buildCartWithItems();
 		assertEquals(0.0, basket.getTotal(), 0.0);
 	}
 	
 	@Test
-	public void totalOfSingleItem() {
+	public void shouldReturnTotalForSingleItem() {
 		ShoppingCart basket = buildCartWithItems(new Item(49.99, 1));
 		assertEquals(49.99, basket.getTotal(), 0.0);
 	}
 	
 	@Test
-	public void totalOfTwoItems() {
+	public void shouldReturnSumOfTotalsForMultipleItems() {
 		ShoppingCart basket = buildCartWithItems(new Item(49.99, 1), new Item(15.99,1));
 		assertEquals(65.98, basket.getTotal(), 0.0);
 	}
 	
 	@Test
-	public void totalOfMoreThanOneQuantity() {
+	public void shouldCalculateTotalWhenItemHasMultipleQuantities() {
 		ShoppingCart basket = buildCartWithItems(new Item(15.99, 2));
 		assertEquals(31.98, basket.getTotal(), 0.0);
 	}
 	
 	@Test
-	public void totalOfMoreThanOneItemAndOneQuantity() {
+	public void shouldCalculateTotalForMultipleItemsWithQuantities() {
 		ShoppingCart basket = buildCartWithItems(new Item(15.99, 2), new Item(49.99, 2));
 		assertEquals(131.96, basket.getTotal(), 0.0);
 	}
