@@ -3,7 +3,7 @@ package com.hl.shoppingcart;
 import java.util.List;
 
 public class ShoppingCart {
-	
+
 	private final List<Item> items;
 
 	public ShoppingCart(List<Item> items) {
