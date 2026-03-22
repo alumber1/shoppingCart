@@ -16,8 +16,8 @@ public class ShoppingCartTest {
 
 	private static final String VALID_PRODUCT_ID  = "SKU-001";
 
-	private static final double PRICE_SKU001 = 15.99;
-	private static final double PRICE_SKU002 = 49.99;
+	private static final double PRICE_MOUSE = 15.99;
+	private static final double PRICE_KEYBOARD = 49.99;
 
 	private static final int SINGLE_QUANTITY = 1;
 	private static final int DOUBLE_QUANTITY = 2;
@@ -36,25 +36,25 @@ public class ShoppingCartTest {
 
 	@Test
 	public void shouldReturnTotalForSingleItem() {
-		ShoppingCart basket = buildCartWithItems(new Item(VALID_PRODUCT_ID , PRICE_SKU002, SINGLE_QUANTITY));
-		assertEquals(PRICE_SKU002, basket.getTotal(), 0.0);
+		ShoppingCart basket = buildCartWithItems(new Item(VALID_PRODUCT_ID , PRICE_KEYBOARD, SINGLE_QUANTITY));
+		assertEquals(PRICE_KEYBOARD, basket.getTotal(), 0.0);
 	}
 
 	@Test
 	public void shouldReturnSumOfTotalsForMultipleItems() {
-		ShoppingCart basket = buildCartWithItems(new Item(VALID_PRODUCT_ID , PRICE_SKU002, SINGLE_QUANTITY), new Item(VALID_PRODUCT_ID , PRICE_SKU001, SINGLE_QUANTITY));
+		ShoppingCart basket = buildCartWithItems(new Item(VALID_PRODUCT_ID , PRICE_KEYBOARD, SINGLE_QUANTITY), new Item(VALID_PRODUCT_ID , PRICE_MOUSE, SINGLE_QUANTITY));
 		assertEquals(TOTAL_TWO_ITEMS, basket.getTotal(), 0.0);
 	}
 
 	@Test
 	public void shouldCalculateTotalWhenItemHasMultipleQuantities() {
-		ShoppingCart basket = buildCartWithItems(new Item(VALID_PRODUCT_ID , PRICE_SKU001, DOUBLE_QUANTITY));
+		ShoppingCart basket = buildCartWithItems(new Item(VALID_PRODUCT_ID , PRICE_MOUSE, DOUBLE_QUANTITY));
 		assertEquals(TOTAL_DOUBLE_MOUSE, basket.getTotal(), 0.0);
 	}
 
 	@Test
 	public void shouldCalculateTotalForMultipleItemsWithQuantities() {
-		ShoppingCart basket = buildCartWithItems(new Item(VALID_PRODUCT_ID , PRICE_SKU001, DOUBLE_QUANTITY), new Item(VALID_PRODUCT_ID , PRICE_SKU002, DOUBLE_QUANTITY));
+		ShoppingCart basket = buildCartWithItems(new Item(VALID_PRODUCT_ID , PRICE_MOUSE, DOUBLE_QUANTITY), new Item(VALID_PRODUCT_ID , PRICE_KEYBOARD, DOUBLE_QUANTITY));
 		assertEquals(TOTAL_DOUBLE_BOTH, basket.getTotal(), 0.0);
 	}
 
@@ -66,11 +66,31 @@ public class ShoppingCartTest {
 
 	@Test
 	public void shouldReturnListForThenCartHasOneItem() {
-		ShoppingCart basket = buildCartWithItems(new Item(VALID_PRODUCT_ID , PRICE_SKU002, SINGLE_QUANTITY));
+		ShoppingCart basket = buildCartWithItems(new Item(VALID_PRODUCT_ID , PRICE_KEYBOARD, SINGLE_QUANTITY));
 		List<Item> items = basket.getItems();
 
 		assertEquals(items.size(), 1);
 		assertEquals(VALID_PRODUCT_ID , items.get(0).getProductId());		
+	}
+
+	@Test
+	public void shouldIgnoreItemsWithInvalidQuantityWhenCalculatingTotal() {
+		ShoppingCart basket = buildCartWithItems(
+				new Item(VALID_PRODUCT_ID, PRICE_MOUSE, DOUBLE_QUANTITY), 
+				new Item(VALID_PRODUCT_ID, PRICE_KEYBOARD, -1)              
+				);
+
+		assertEquals(PRICE_MOUSE * DOUBLE_QUANTITY, basket.getTotal(), 0.0);
+	}
+
+	@Test
+	public void shouldOnlySumItemsWithPositiveQuantity() {
+		ShoppingCart basket = buildCartWithItems(
+				new Item(VALID_PRODUCT_ID, PRICE_MOUSE, SINGLE_QUANTITY),
+				new Item(VALID_PRODUCT_ID, PRICE_KEYBOARD, 0)
+				);
+
+		assertEquals(PRICE_MOUSE, basket.getTotal(), 0.0);
 	}
 
 	// ===== Validation / Edge Case Tests =====
@@ -81,19 +101,24 @@ public class ShoppingCartTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void shouldThrowExceptionForNegativePrice() {
-		buildCartWithItems(new Item(VALID_PRODUCT_ID , -PRICE_SKU002, SINGLE_QUANTITY));
+		buildCartWithItems(new Item(VALID_PRODUCT_ID , -PRICE_KEYBOARD, SINGLE_QUANTITY));
 	}
 
 	@Test
 	public void shouldTreatNegativeQuantityAsZero() {
-		ShoppingCart basket = buildCartWithItems(new Item(VALID_PRODUCT_ID , PRICE_SKU002, -1));
+		ShoppingCart basket = buildCartWithItems(new Item(VALID_PRODUCT_ID , PRICE_KEYBOARD, -1));
 		assertEquals(0.0, basket.getTotal(), 0.0);
 	}
 
 	@Test
 	public void shouldTreatZeroQuantityAsZero() {
-		ShoppingCart basket = buildCartWithItems(new Item(VALID_PRODUCT_ID , PRICE_SKU002, 0));
+		ShoppingCart basket = buildCartWithItems(new Item(VALID_PRODUCT_ID , PRICE_KEYBOARD, 0));
 		assertEquals(0.0, basket.getTotal(), 0.0);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void shouldThrowExceptionWhenProductIdIsEmpty() {
+		new Item("", PRICE_MOUSE, SINGLE_QUANTITY);
 	}
 
 	/**

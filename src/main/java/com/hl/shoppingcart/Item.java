@@ -29,9 +29,9 @@ public class Item {
 		if (quantity < MIN_QUANTITY) {
 			quantity = 0;
 		}
-		
+
 		if (productId == null || productId.isBlank()) {
-		    throw new IllegalArgumentException("ProductId cannot be null or empty");
+			throw new IllegalArgumentException("ProductId cannot be null or empty");
 		}
 
 		this.productId = productId;

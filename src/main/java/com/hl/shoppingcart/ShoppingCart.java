@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 public class ShoppingCart {
 
 	private final List<Item> items;
-	private static final double EMPTY_CART_TOTAL = 0.0;
 
 	/**
 	 * Constructs a new ShoppingCart with the given items.
@@ -32,11 +31,6 @@ public class ShoppingCart {
 	 * @return total cost of all items; returns 0.0 if the item list is null
 	 */
 	public double getTotal() {
-
-		if(items == null) {
-			return EMPTY_CART_TOTAL;
-		}
-
 		return items.stream().mapToDouble(item -> item.getItemTotal()).sum();
 	}
 
