@@ -38,6 +38,11 @@ public class ShoppingCartTest {
 		assertEquals(131.96, basket.getTotal(), 0.0);
 	}
 	
+	@Test(expected = IllegalArgumentException.class)
+	public void shouldThrowExceptionForNegativePrice() {
+		ShoppingCart basket = buildCartWithItems(new Item(-49.99, 1));
+	}
+	
 	private ShoppingCart buildCartWithItems(Item ...item) {		
 		return new ShoppingCart(Arrays.asList(item));
 	}
