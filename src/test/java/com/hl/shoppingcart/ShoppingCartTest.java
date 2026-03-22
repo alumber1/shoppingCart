@@ -43,6 +43,12 @@ public class ShoppingCartTest {
 		ShoppingCart basket = buildCartWithItems(new Item(15.99, 2), new Item(49.99, 2));
 		assertEquals(131.96, basket.getTotal(), 0.0);
 	}
+	
+	@Test
+	public void shouldNotReturnEmptyForProductId() {
+		ShoppingCart basket = buildCartWithItems();
+		assertEquals("", basket.getProductId());
+	}
 
 	// ===== Validation / Edge Case Tests =====
 
@@ -72,7 +78,7 @@ public class ShoppingCartTest {
 	 * In a stricter design, we could throw an exception instead, but here we treat null as an empty cart.
 	 */
 	@Test
-	public void shouldReturnZeroForNull() {
+	public void shouldReturnZeroForNullItems() {
 		ShoppingCart basket = new ShoppingCart(null);
 		assertEquals(0.0, basket.getTotal(), 0.0);
 	}

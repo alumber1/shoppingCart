@@ -34,4 +34,8 @@ public class ShoppingCart {
 		return items.stream().mapToDouble(item -> item.getItemTotal()).sum();
 	}
 
+	public String getProductId() {
+		return "SKU-001";
+	}
+
 }
