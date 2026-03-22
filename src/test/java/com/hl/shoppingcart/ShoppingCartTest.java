@@ -3,7 +3,7 @@ package com.hl.shoppingcart;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
-
+import java.util.Collections;
 import org.junit.Test;
 
 /**
@@ -22,32 +22,32 @@ public class ShoppingCartTest {
 
 	@Test
 	public void shouldReturnTotalForSingleItem() {
-		ShoppingCart basket = buildCartWithItems(new Item(49.99, 1));
+		ShoppingCart basket = buildCartWithItems(new Item("", 49.99, 1));
 		assertEquals(49.99, basket.getTotal(), 0.0);
 	}
 
 	@Test
 	public void shouldReturnSumOfTotalsForMultipleItems() {
-		ShoppingCart basket = buildCartWithItems(new Item(49.99, 1), new Item(15.99,1));
+		ShoppingCart basket = buildCartWithItems(new Item("", 49.99, 1), new Item("", 15.99,1));
 		assertEquals(65.98, basket.getTotal(), 0.0);
 	}
 
 	@Test
 	public void shouldCalculateTotalWhenItemHasMultipleQuantities() {
-		ShoppingCart basket = buildCartWithItems(new Item(15.99, 2));
+		ShoppingCart basket = buildCartWithItems(new Item("", 15.99, 2));
 		assertEquals(31.98, basket.getTotal(), 0.0);
 	}
 
 	@Test
 	public void shouldCalculateTotalForMultipleItemsWithQuantities() {
-		ShoppingCart basket = buildCartWithItems(new Item(15.99, 2), new Item(49.99, 2));
+		ShoppingCart basket = buildCartWithItems(new Item("", 15.99, 2), new Item("", 49.99, 2));
 		assertEquals(131.96, basket.getTotal(), 0.0);
 	}
-	
+
 	@Test
 	public void shouldNotReturnEmptyForProductId() {
 		ShoppingCart basket = buildCartWithItems();
-		assertEquals("", basket.getProductId());
+		assertEquals(Collections.emptyList(), basket.getProductId());
 	}
 
 	// ===== Validation / Edge Case Tests =====
@@ -58,18 +58,18 @@ public class ShoppingCartTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void shouldThrowExceptionForNegativePrice() {
-		buildCartWithItems(new Item(-49.99, 1));
+		buildCartWithItems(new Item("", -49.99, 1));
 	}
 
 	@Test
 	public void shouldTreatNegativeQuantityAsZero() {
-		ShoppingCart basket = buildCartWithItems(new Item(49.99, -1));
+		ShoppingCart basket = buildCartWithItems(new Item("", 49.99, -1));
 		assertEquals(0.0, basket.getTotal(), 0.0);
 	}
 
 	@Test
 	public void shouldTreatZeroQuantityAsZero() {
-		ShoppingCart basket = buildCartWithItems(new Item(49.99, 0));
+		ShoppingCart basket = buildCartWithItems(new Item("", 49.99, 0));
 		assertEquals(0.0, basket.getTotal(), 0.0);
 	}
 

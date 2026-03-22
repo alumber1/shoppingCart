@@ -10,6 +10,7 @@ public class Item {
 	
 	private double price = 0;
 	private int quantity = 0;
+	private String productId = "";
 
 
     /**
@@ -19,7 +20,7 @@ public class Item {
      * @param quantity the quantity of the item, if less than 1, it will be treated as 0
      * @throws IllegalArgumentException if price < 0
      */
-	public Item(double price, int quantity) {
+	public Item(String productId, double price, int quantity) {
 
 		if (price < MIN_PRICE) {
 			throw new IllegalArgumentException("Price cannot be negative");
@@ -29,8 +30,10 @@ public class Item {
 			quantity = 0;
 		}
 
+		this.productId = productId;
 		this.price = price;
 		this.quantity = quantity;
+		
 
 	}
 
@@ -41,5 +44,14 @@ public class Item {
 	 */
 	public double getItemTotal() {
 		return price * quantity;
+	}
+	
+	/**
+	 * Returns the items product Id.
+	 *
+	 * @return the product id
+	 */
+	public String getProductId() {
+		return productId;
 	}
 }
