@@ -1,9 +1,12 @@
 package com.hl.shoppingcart;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
+
 import org.junit.Test;
 
 /**
@@ -11,6 +14,17 @@ import org.junit.Test;
  */
 public class ShoppingCartTest {
 
+	private static final String VALID_PRODUCT_ID  = "SKU-001";
+
+	private static final double PRICE_SKU001 = 15.99;
+	private static final double PRICE_SKU002 = 49.99;
+
+	private static final int SINGLE_QUANTITY = 1;
+	private static final int DOUBLE_QUANTITY = 2;
+
+	private static final double TOTAL_TWO_ITEMS = 65.98;
+	private static final double TOTAL_DOUBLE_MOUSE = 31.98;
+	private static final double TOTAL_DOUBLE_BOTH = 131.96;
 
 	// ===== Happy Path Tests =====
 
@@ -22,32 +36,41 @@ public class ShoppingCartTest {
 
 	@Test
 	public void shouldReturnTotalForSingleItem() {
-		ShoppingCart basket = buildCartWithItems(new Item("", 49.99, 1));
-		assertEquals(49.99, basket.getTotal(), 0.0);
+		ShoppingCart basket = buildCartWithItems(new Item(VALID_PRODUCT_ID , PRICE_SKU002, SINGLE_QUANTITY));
+		assertEquals(PRICE_SKU002, basket.getTotal(), 0.0);
 	}
 
 	@Test
 	public void shouldReturnSumOfTotalsForMultipleItems() {
-		ShoppingCart basket = buildCartWithItems(new Item("", 49.99, 1), new Item("", 15.99,1));
-		assertEquals(65.98, basket.getTotal(), 0.0);
+		ShoppingCart basket = buildCartWithItems(new Item(VALID_PRODUCT_ID , PRICE_SKU002, SINGLE_QUANTITY), new Item(VALID_PRODUCT_ID , PRICE_SKU001, SINGLE_QUANTITY));
+		assertEquals(TOTAL_TWO_ITEMS, basket.getTotal(), 0.0);
 	}
 
 	@Test
 	public void shouldCalculateTotalWhenItemHasMultipleQuantities() {
-		ShoppingCart basket = buildCartWithItems(new Item("", 15.99, 2));
-		assertEquals(31.98, basket.getTotal(), 0.0);
+		ShoppingCart basket = buildCartWithItems(new Item(VALID_PRODUCT_ID , PRICE_SKU001, DOUBLE_QUANTITY));
+		assertEquals(TOTAL_DOUBLE_MOUSE, basket.getTotal(), 0.0);
 	}
 
 	@Test
 	public void shouldCalculateTotalForMultipleItemsWithQuantities() {
-		ShoppingCart basket = buildCartWithItems(new Item("", 15.99, 2), new Item("", 49.99, 2));
-		assertEquals(131.96, basket.getTotal(), 0.0);
+		ShoppingCart basket = buildCartWithItems(new Item(VALID_PRODUCT_ID , PRICE_SKU001, DOUBLE_QUANTITY), new Item(VALID_PRODUCT_ID , PRICE_SKU002, DOUBLE_QUANTITY));
+		assertEquals(TOTAL_DOUBLE_BOTH, basket.getTotal(), 0.0);
 	}
 
 	@Test
-	public void shouldNotReturnEmptyForProductId() {
+	public void shouldReturnEmptyListForWhenCartIsEmpty() {
 		ShoppingCart basket = buildCartWithItems();
-		assertEquals(Collections.emptyList(), basket.getProductId());
+		assertEquals(Collections.emptyList(), basket.getItems());
+	}
+
+	@Test
+	public void shouldReturnListForThenCartHasOneItem() {
+		ShoppingCart basket = buildCartWithItems(new Item(VALID_PRODUCT_ID , PRICE_SKU002, SINGLE_QUANTITY));
+		List<Item> items = basket.getItems();
+
+		assertEquals(items.size(), 1);
+		assertEquals(VALID_PRODUCT_ID , items.get(0).getProductId());		
 	}
 
 	// ===== Validation / Edge Case Tests =====
@@ -58,18 +81,18 @@ public class ShoppingCartTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void shouldThrowExceptionForNegativePrice() {
-		buildCartWithItems(new Item("", -49.99, 1));
+		buildCartWithItems(new Item(VALID_PRODUCT_ID , -PRICE_SKU002, SINGLE_QUANTITY));
 	}
 
 	@Test
 	public void shouldTreatNegativeQuantityAsZero() {
-		ShoppingCart basket = buildCartWithItems(new Item("", 49.99, -1));
+		ShoppingCart basket = buildCartWithItems(new Item(VALID_PRODUCT_ID , PRICE_SKU002, -1));
 		assertEquals(0.0, basket.getTotal(), 0.0);
 	}
 
 	@Test
 	public void shouldTreatZeroQuantityAsZero() {
-		ShoppingCart basket = buildCartWithItems(new Item("", 49.99, 0));
+		ShoppingCart basket = buildCartWithItems(new Item(VALID_PRODUCT_ID , PRICE_SKU002, 0));
 		assertEquals(0.0, basket.getTotal(), 0.0);
 	}
 
@@ -81,6 +104,13 @@ public class ShoppingCartTest {
 	public void shouldReturnZeroForNullItems() {
 		ShoppingCart basket = new ShoppingCart(null);
 		assertEquals(0.0, basket.getTotal(), 0.0);
+	}
+
+	@Test
+	public void shouldReturnEmptyItemForWhenCartIsEmpty() {
+		ShoppingCart basket = new ShoppingCart(null);
+
+		assertTrue(basket.getItems().isEmpty());
 	}
 
 	// ===== Helper Methods =====

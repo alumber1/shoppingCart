@@ -1,5 +1,6 @@
 package com.hl.shoppingcart;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,7 +19,11 @@ public class ShoppingCart {
 	 * @param items the list of items to include; can be null (treated as empty cart)
 	 */
 	public ShoppingCart(List<Item> items) {
-		this.items = items;
+		if (items == null) {
+			this.items = new ArrayList<>();
+		} else {
+			this.items = items;
+		}
 	}
 
 	/**
@@ -44,4 +49,7 @@ public class ShoppingCart {
 		return items.stream().map(Item::getProductId).collect(Collectors.toList());
 	}
 
+	public List<Item> getItems() {
+		return items;
+	}
 }
