@@ -12,7 +12,7 @@ public class Item {
 			throw new IllegalArgumentException("Price cannot be negative");
 		}
 
-		if (quantity < 0) {
+		if (quantity <= 0) {
 			throw new IllegalArgumentException("Quantity cannot be negative");
 		}
 

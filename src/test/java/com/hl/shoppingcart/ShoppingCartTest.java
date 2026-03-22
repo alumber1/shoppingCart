@@ -48,6 +48,11 @@ public class ShoppingCartTest {
 		ShoppingCart basket = buildCartWithItems(new Item(49.99, -1));
 	}
 
+	@Test(expected = IllegalArgumentException.class)
+	public void shouldThrowExceptionForZeroQuantity() {
+		ShoppingCart basket = buildCartWithItems(new Item(49.99, 0));
+	}
+	
 	private ShoppingCart buildCartWithItems(Item ...item) {		
 		return new ShoppingCart(Arrays.asList(item));
 	}
