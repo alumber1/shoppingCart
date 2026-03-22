@@ -55,22 +55,16 @@ public class ShoppingCartTest {
 		buildCartWithItems(new Item(-49.99, 1));
 	}
 
-	/**
-	 * For demonstration purposes, this test throws an exception for negative quantity.
-	 * In a production scenario, we could instead treat negative values as zero to handle gracefully.
-	 */
-	@Test(expected = IllegalArgumentException.class)
-	public void shouldThrowExceptionForNegativeQuantity() {
-		buildCartWithItems(new Item(49.99, -1));
+	@Test
+	public void shouldTreatNegativeQuantityAsZero() {
+		ShoppingCart basket = buildCartWithItems(new Item(49.99, -1));
+		assertEquals(0.0, basket.getTotal(), 0.0);
 	}
 
-	/**
-	 * For demonstration purposes, this test throws an exception for zero quantity.
-	 * In a production scenario, we could instead treat zero values as zero or skip the item.
-	 */
-	@Test(expected = IllegalArgumentException.class)
-	public void shouldThrowExceptionForZeroQuantity() {
-		buildCartWithItems(new Item(49.99, 0));
+	@Test
+	public void shouldTreatZeroQuantityAsZero() {
+		ShoppingCart basket = buildCartWithItems(new Item(49.99, 0));
+		assertEquals(0.0, basket.getTotal(), 0.0);
 	}
 
 	/**
