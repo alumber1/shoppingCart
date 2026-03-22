@@ -12,10 +12,7 @@ public class ShoppingCart {
 	}
 
 	public double getTotal() {
-		// TODO Auto-generated method stub
-		if(items.isEmpty())
-			return 0.0;
-		return items.get(0).getPrice();
+		return items.stream().mapToDouble(item -> item.getPrice()).sum();
 	}
 
 }

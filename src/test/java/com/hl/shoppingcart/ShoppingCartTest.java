@@ -21,4 +21,9 @@ public class ShoppingCartTest {
 		assertEquals(49.99, basket.getTotal(), 0.0);
 	}
 	
+	@Test
+	public void totalOfTwoItems() {
+		ShoppingCart basket = new ShoppingCart(Arrays.asList(new Item(49.99, 1), new Item(15.99, 1)));
+		assertEquals(65.98, basket.getTotal(), 0.0);
+	}
 }
