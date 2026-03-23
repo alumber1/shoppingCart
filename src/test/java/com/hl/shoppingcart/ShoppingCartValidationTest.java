@@ -8,10 +8,11 @@ import static com.hl.shoppingcart.TestDataHelper.PRICE_MOUSE;
 import static com.hl.shoppingcart.TestDataHelper.SINGLE_QUANTITY;
 import static com.hl.shoppingcart.TestDataHelper.buildCartWithItems;
 import static com.hl.shoppingcart.TestDataHelper.keyboard;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ShoppingCartValidationTest {
 
@@ -19,10 +20,12 @@ public class ShoppingCartValidationTest {
 	 * For demonstration purposes, this test throws an exception for negative price.
 	 * In a production scenario, we could instead treat negative values as zero to handle gracefully.
 	 */
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void shouldThrowExceptionWhenPriceIsNegative() {
-		buildCartWithItems(new Item(KEYBOARD_PROD_ID, KEYBOARD_PROD_NAME, -PRICE_KEYBOARD, SINGLE_QUANTITY, GBP));
-	}
+		assertThrows(IllegalArgumentException.class, () -> {
+			buildCartWithItems(new Item(KEYBOARD_PROD_ID, KEYBOARD_PROD_NAME, -PRICE_KEYBOARD, SINGLE_QUANTITY, GBP));
+		});
+	}	
 
 	@Test
 	public void shouldReturnZeroWhenQuantityIsNegative() {
@@ -36,9 +39,11 @@ public class ShoppingCartValidationTest {
 		assertEquals(0.0, basket.getTotal(), 0.0);
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void shouldThrowExceptionWhenProductIdIsEmpty() {
-		new Item("", KEYBOARD_PROD_ID, PRICE_MOUSE, SINGLE_QUANTITY, GBP);
+		assertThrows(IllegalArgumentException.class, () -> {
+			new Item("", KEYBOARD_PROD_ID, PRICE_MOUSE, SINGLE_QUANTITY, GBP);
+		});
 	}
 
 	/**

@@ -4,11 +4,11 @@ import static com.hl.shoppingcart.TestDataHelper.DOUBLE_QUANTITY;
 import static com.hl.shoppingcart.TestDataHelper.MOUSE_PROD_ID;
 import static com.hl.shoppingcart.TestDataHelper.MOUSE_PROD_NAME;
 import static com.hl.shoppingcart.TestDataHelper.PRICE_MOUSE;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ShoppingCartCurrencyTest {
 

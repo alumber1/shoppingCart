@@ -8,9 +8,10 @@ import static com.hl.shoppingcart.TestDataHelper.SINGLE_QUANTITY;
 import static com.hl.shoppingcart.TestDataHelper.buildCartWithItems;
 import static com.hl.shoppingcart.TestDataHelper.keyboard;
 import static com.hl.shoppingcart.TestDataHelper.mouse;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ShoppingCartProductNameTest {
 
@@ -68,9 +69,11 @@ public class ShoppingCartProductNameTest {
 
 	// ===== Null / empty product name tests =====
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void shouldThrowExceptionWhenProductIdIsEmptyEvenIfProductNameIsNull() {
-		new Item("", null, PRICE_MOUSE, SINGLE_QUANTITY, GBP);
+	    assertThrows(IllegalArgumentException.class, () -> {
+	        new Item("", null, PRICE_MOUSE, SINGLE_QUANTITY, GBP);
+	    });
 	}
 
 }

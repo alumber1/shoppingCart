@@ -14,13 +14,12 @@ import static com.hl.shoppingcart.TestDataHelper.TOTAL_TWO_ITEMS;
 import static com.hl.shoppingcart.TestDataHelper.buildCartWithItems;
 import static com.hl.shoppingcart.TestDataHelper.keyboard;
 import static com.hl.shoppingcart.TestDataHelper.mouse;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.Test;
-
+import org.junit.jupiter.api.Test;
 
 public class ShoppingCartHappyPathTest {
 
