@@ -80,7 +80,7 @@ public class Item {
 	}
 
 	/**
-	 * Returns the product name of this item.
+	 * Returns the currency of this item.
 	 *
 	 * @return the currency
 	 */
