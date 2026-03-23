@@ -14,7 +14,7 @@ public class TestDataHelper {
 
 	public static final String MOUSE_PROD_NAME = "Wireless Mouse";
 	public static final String KEYBOARD_PROD_NAME = "Mechanical Keyboard";
-	
+
 	public static final String  GBP = "GBP";
 
 	public static final double PRICE_MOUSE = 15.99;
@@ -26,8 +26,6 @@ public class TestDataHelper {
 	public static final double TOTAL_TWO_ITEMS = 65.98;
 	public static final double TOTAL_DOUBLE_MOUSE = 31.98;
 	public static final double TOTAL_DOUBLE_BOTH = 131.96;
-	
-
 
 	/**
 	 * Helper method to create a new shopping cart with the given items.
@@ -36,9 +34,9 @@ public class TestDataHelper {
 	 * @return a new ShoppingCart containing the given items
 	 */
 	public static ShoppingCart buildCartWithItems(Item ...items) {		
-		return new ShoppingCart(null, Arrays.asList(items));
+		return new ShoppingCart(Arrays.asList(items));
 	}
-	
+
 	/**
 	 * Helper method to create a new shopping cart with the given user and  items.
 	 *
@@ -46,8 +44,19 @@ public class TestDataHelper {
 	 * @param items the items to include in the shopping cart
 	 * @return a new ShoppingCart containing the given items
 	 */
-	public static ShoppingCart buildCartWithUserAndItems(String userId, Item ...items) {		
-		return new ShoppingCart(userId, Arrays.asList(items));
+	public static ShoppingCart buildCartWithUserIdAndItems(String userId, Item ...items) {		
+		return new ShoppingCart(userId, null, Arrays.asList(items));
+	}
+
+	/**
+	 * Helper method to create a new shopping cart with the given user and  items.
+	 *
+	 * @param userId the user ID for the shopping cart
+	 * @param items the items to include in the shopping cart
+	 * @return a new ShoppingCart containing the given items
+	 */
+	public static ShoppingCart buildCartWithUserIdCartIdAndItems(String userId, String cartId, Item ...items) {		
+		return new ShoppingCart(userId, cartId, Arrays.asList(items));
 	}
 
 	/**
