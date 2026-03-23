@@ -12,18 +12,25 @@ import java.util.List;
 public class ShoppingCart {
 
 	private final List<Item> items;
+	private final String userId;
 
 	/**
 	 * Constructs a new ShoppingCart with the given items.
 	 *
 	 * @param items the list of items to include; can be null (treated as empty cart)
 	 */
-	public ShoppingCart(List<Item> items) {
+	public ShoppingCart(String userId, List<Item> items) {
 		if (items == null) {
 			this.items = new ArrayList<>();
 		} else {
 			this.items = items;
 		}
+		
+		if  (userId == null || userId.isBlank()) {
+			userId = "1";
+		}
+		
+		this.userId = userId;
 	}
 
 	/**
@@ -43,5 +50,9 @@ public class ShoppingCart {
 
 	public List<Item> getItems() {
 		return items;
+	}
+
+	public String getUserId() {
+		return userId;
 	}
 }
