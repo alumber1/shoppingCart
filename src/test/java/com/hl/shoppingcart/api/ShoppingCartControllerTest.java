@@ -18,39 +18,43 @@ public class ShoppingCartControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
 
-	@Test
-	void shouldReturn200ResponseCode() throws Exception {
-		String payload = readJson("shoppingCartPayload.json");
-
-		mockMvc.perform(post("/api/cart/total")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(payload))
-		.andExpect(status().isOk());
-	}
-
-	@Test
-	void shouldReturnTotalForValidCart() throws Exception {
-		String payload = readJson("shoppingCartPayload.json");
-
-		mockMvc.perform(post("/api/cart/total")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(payload))
-		.andExpect(jsonPath("$.total").value(81.97));
-	} 
-	
-
-	@Test
-	void shouldReturnUserIdForValidCart() throws Exception {
-		String payload = readJson("shoppingCartPayload.json");
-
-		mockMvc.perform(post("/api/cart/total")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(payload))
-		.andExpect(jsonPath("$.userId").value("12345"));
-	} 
-
+	/** Utility to read JSON payloads from test resources */
 	private String readJson(String path) throws Exception {
 		ClassPathResource resource = new ClassPathResource(path);
 		return Files.readString(resource.getFile().toPath());
+	}
+
+	@Test
+	void shouldReturn200AndCorrectTotalForValidCart() throws Exception {
+		String payload = readJson("shoppingCartPayload.json");
+
+		mockMvc.perform(post("/api/cart/total")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(payload))
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.total").value(81.97))
+		.andExpect(jsonPath("$.userId").value("12345"))
+		.andExpect(jsonPath("$.cartId").value("abcde-67890"));
+	}
+
+	@Test
+	void shouldReturnTotal0ForEmptyCart() throws Exception {
+		String payload = readJson("shoppingCartEmpty.json");
+
+		mockMvc.perform(post("/api/cart/total")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(payload))
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.total").value(0.00));
+	}
+
+	@Test
+	void shouldReturnBadRequestForInvalidPayload() throws Exception {
+		String payload = "A bad payload";
+
+		mockMvc.perform(post("/api/cart/total")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(payload))
+		.andExpect(status().isBadRequest());
 	}
 }

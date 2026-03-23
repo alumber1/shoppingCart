@@ -1,5 +1,7 @@
 package com.hl.shoppingcart.api;
 
+import java.time.Instant;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,11 +17,12 @@ public class ShoppingCartController {
 	@PostMapping("/total")
     public ResponseEntity<ShoppingCartResponse> calculateTotal(@RequestBody ShoppingCartRequest request) {
 
-        ShoppingCart cart = new ShoppingCart(request.userId, null, null, request.items);
+        ShoppingCart cart = new ShoppingCart(request.userId, request.cartId, Instant.now(), request.items);
 
         ShoppingCartResponse response = new ShoppingCartResponse();
         response.total = cart.getTotal();
         response.userId = cart.getUserId();
+        response.cartId = cart.getCartId();
 
         return ResponseEntity.ok(response);
     }
