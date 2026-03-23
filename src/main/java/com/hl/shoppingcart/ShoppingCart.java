@@ -1,5 +1,7 @@
 package com.hl.shoppingcart;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +32,13 @@ public class ShoppingCart {
 	 * @return total cost of all items; returns 0.0 if the item list is null
 	 */
 	public double getTotal() {
-		return items.stream().mapToDouble(item -> item.getItemTotal()).sum();
+		double total = items.stream()
+				.mapToDouble(item -> item.getItemTotal())
+				.sum();
+
+		return BigDecimal.valueOf(total)
+				.setScale(2, RoundingMode.HALF_UP)
+				.doubleValue();
 	}
 
 	public List<Item> getItems() {
