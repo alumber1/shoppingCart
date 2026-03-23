@@ -15,6 +15,8 @@ public class TestDataHelper {
 	public static final String MOUSE_PROD_NAME = "Wireless Mouse";
 	public static final String KEYBOARD_PROD_NAME = "Mechanical Keyboard";
 
+	public static final String  GBP = "GBP";
+
 	public static final double PRICE_MOUSE = 15.99;
 	public static final double PRICE_KEYBOARD = 49.99;
 
@@ -24,6 +26,8 @@ public class TestDataHelper {
 	public static final double TOTAL_TWO_ITEMS = 65.98;
 	public static final double TOTAL_DOUBLE_MOUSE = 31.98;
 	public static final double TOTAL_DOUBLE_BOTH = 131.96;
+
+
 
 	/**
 	 * Helper method to create a new shopping cart with the given items.
@@ -42,7 +46,7 @@ public class TestDataHelper {
 	 * @return new Item representing a mouse
 	 */
 	public static Item mouse(int quantity) {
-		return new Item(MOUSE_PROD_ID, MOUSE_PROD_NAME, PRICE_MOUSE, quantity);
+		return new Item(MOUSE_PROD_ID, MOUSE_PROD_NAME, PRICE_MOUSE, quantity, null);
 	}
 
 	/**
@@ -52,7 +56,7 @@ public class TestDataHelper {
 	 * @return new Item representing a keyboard
 	 */
 	public static Item keyboard(int quantity) {
-		return new Item(KEYBOARD_PROD_ID, KEYBOARD_PROD_NAME, PRICE_KEYBOARD, quantity);
+		return new Item(KEYBOARD_PROD_ID, KEYBOARD_PROD_NAME, PRICE_KEYBOARD, quantity, null);
 	}
 
 	/**
@@ -63,6 +67,6 @@ public class TestDataHelper {
 	 * @return new Item representing a keyboard with the specified name
 	 */
 	public static Item keyboard(String productName, int quantity) {
-		return new Item(KEYBOARD_PROD_ID, productName, PRICE_KEYBOARD, quantity);
+		return new Item(KEYBOARD_PROD_ID, productName, PRICE_KEYBOARD, quantity, null);
 	}
 }

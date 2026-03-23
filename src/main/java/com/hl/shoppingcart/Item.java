@@ -12,7 +12,7 @@ public class Item {
 	private int quantity = 0;
 	private String productId;
 	private String productName;
-
+	private String currency;
 
 	/**
 	 * Constructs a new Item with the given price and quantity.
@@ -21,7 +21,7 @@ public class Item {
 	 * @param quantity the quantity of the item, if less than 1, it will be treated as 0
 	 * @throws IllegalArgumentException if price < 0
 	 */
-	public Item(String productId, String productName, double price, int quantity) {
+	public Item(String productId, String productName, double price, int quantity,  String currency) {
 
 		if (price < MIN_PRICE) {
 			throw new IllegalArgumentException("Price cannot be negative");
@@ -38,10 +38,14 @@ public class Item {
 		if(productName == null  || productId.isBlank())
 			productName = "";
 
+		if(currency == null  || currency.isBlank())
+			currency = "GBP";
+
 		this.productId = productId;
 		this.price = price;
 		this.quantity = quantity;
 		this.productName = productName;
+		this.currency = currency;
 
 	}
 
@@ -63,12 +67,16 @@ public class Item {
 		return productId;
 	}
 
-    /**
-     * Returns the product name of this item.
-     *
-     * @return product name
-     */
+	/**
+	 * Returns the product name of this item.
+	 *
+	 * @return product name
+	 */
 	public String getProductName() {
 		return productName;
+	}
+
+	public String getCurrency() {
+		return currency;
 	}
 }

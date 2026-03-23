@@ -1,5 +1,6 @@
 package com.hl.shoppingcart;
 
+import static com.hl.shoppingcart.TestDataHelper.GBP;
 import static com.hl.shoppingcart.TestDataHelper.KEYBOARD_PROD_ID;
 import static com.hl.shoppingcart.TestDataHelper.KEYBOARD_PROD_NAME;
 import static com.hl.shoppingcart.TestDataHelper.PRICE_KEYBOARD;
@@ -20,7 +21,7 @@ public class ShoppingCartValidationTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void shouldThrowExceptionWhenPriceIsNegative() {
-		buildCartWithItems(new Item(KEYBOARD_PROD_ID, KEYBOARD_PROD_NAME, -PRICE_KEYBOARD, SINGLE_QUANTITY));
+		buildCartWithItems(new Item(KEYBOARD_PROD_ID, KEYBOARD_PROD_NAME, -PRICE_KEYBOARD, SINGLE_QUANTITY, GBP));
 	}
 
 	@Test
@@ -31,13 +32,13 @@ public class ShoppingCartValidationTest {
 
 	@Test
 	public void shouldReturnZeroWhenQuantityIsZero() {
-		ShoppingCart basket =  buildCartWithItems(new Item(KEYBOARD_PROD_ID, KEYBOARD_PROD_NAME, PRICE_KEYBOARD, 0));
+		ShoppingCart basket =  buildCartWithItems(new Item(KEYBOARD_PROD_ID, KEYBOARD_PROD_NAME, PRICE_KEYBOARD, 0, GBP));
 		assertEquals(0.0, basket.getTotal(), 0.0);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void shouldThrowExceptionWhenProductIdIsEmpty() {
-		new Item("", KEYBOARD_PROD_ID, PRICE_MOUSE, SINGLE_QUANTITY);
+		new Item("", KEYBOARD_PROD_ID, PRICE_MOUSE, SINGLE_QUANTITY, GBP);
 	}
 
 	/**

@@ -20,7 +20,7 @@ import org.junit.Test;
 
 
 public class ShoppingCartHappyPathTest {
-	
+
 	@Test
 	public void shouldReturnZeroWhenCartIsEmpty() {
 		ShoppingCart basket = TestDataHelper.buildCartWithItems();
