@@ -14,22 +14,32 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(ShoppingCartController.class)
 public class ShoppingCartControllerTest {
-	
-    @Autowired
-    private MockMvc mockMvc;
-    
-    @Test
-    void shouldReturnTotalForValidCart() throws Exception {
-    	String payload = readJson("shoppingCartPayload.json");
-    	
-    	 mockMvc.perform(post("/api/cart/total")
-                 .contentType(MediaType.APPLICATION_JSON)
-                 .content(payload))
-                 .andExpect(jsonPath("$.total").value(81.97));
-     }
-	
-    private String readJson(String path) throws Exception {
-        ClassPathResource resource = new ClassPathResource(path);
-        return Files.readString(resource.getFile().toPath());
-    }
+
+	@Autowired
+	private MockMvc mockMvc;
+
+	@Test
+	void shouldReturn200ResponseCode() throws Exception {
+		String payload = readJson("shoppingCartPayload.json");
+
+		mockMvc.perform(post("/api/cart/total")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(payload))
+		.andExpect(status().isOk());
+	}
+
+	@Test
+	void shouldReturnTotalForValidCart() throws Exception {
+		String payload = readJson("shoppingCartPayload.json");
+
+		mockMvc.perform(post("/api/cart/total")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(payload))
+		.andExpect(jsonPath("$.total").value(81.97));
+	} 
+
+	private String readJson(String path) throws Exception {
+		ClassPathResource resource = new ClassPathResource(path);
+		return Files.readString(resource.getFile().toPath());
+	}
 }
