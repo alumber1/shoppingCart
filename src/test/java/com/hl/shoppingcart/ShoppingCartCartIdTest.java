@@ -16,7 +16,7 @@ public class ShoppingCartCartIdTest {
 
 	@Test
 	public void shouldSetCartIdWhenNull() {
-		ShoppingCart basket = new ShoppingCart(null, null, null);
+		ShoppingCart basket = new ShoppingCart(null, null, null, null);
 		assertEquals("aaaaa-00001", basket.getCartId());
 	}
 

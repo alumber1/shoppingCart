@@ -45,7 +45,7 @@ public class TestDataHelper {
 	 * @return a new ShoppingCart containing the given items
 	 */
 	public static ShoppingCart buildCartWithUserIdAndItems(String userId, Item ...items) {		
-		return new ShoppingCart(userId, null, Arrays.asList(items));
+		return new ShoppingCart(userId, null, null, Arrays.asList(items));
 	}
 
 	/**
@@ -56,7 +56,7 @@ public class TestDataHelper {
 	 * @return a new ShoppingCart containing the given items
 	 */
 	public static ShoppingCart buildCartWithUserIdCartIdAndItems(String userId, String cartId, Item ...items) {		
-		return new ShoppingCart(userId, cartId, Arrays.asList(items));
+		return new ShoppingCart(userId, cartId, null, Arrays.asList(items));
 	}
 
 	/**

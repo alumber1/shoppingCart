@@ -47,13 +47,13 @@ public class ShoppingCartValidationTest {
 	 */
 	@Test
 	public void shouldReturnZeroWhenCartIsNull() {
-		ShoppingCart basket = new ShoppingCart(null, null, null);
+		ShoppingCart basket = new ShoppingCart(null, null, null, null);
 		assertEquals(0.0, basket.getTotal(), 0.0);
 	}
 
 	@Test
 	public void shouldReturnEmptyListWhenCartIsNull() {
-		ShoppingCart basket = new ShoppingCart(null, null, null);
+		ShoppingCart basket = new ShoppingCart(null, null, null, null);
 		assertTrue(basket.getItems().isEmpty());
 	}
 }

@@ -2,6 +2,7 @@ package com.hl.shoppingcart;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,7 @@ public class ShoppingCart {
 	private final List<Item> items;
 	private final String userId;
 	private final String cartId;
+	private final Instant timestamp;
 
 	private static final String DEFAULT_USER_ID = "1";
 	private static final String DEFAULT_CART_ID = "aaaaa-00001";
@@ -23,7 +25,7 @@ public class ShoppingCart {
 	 *
 	 * @param items the list of items to include; can be null (treated as empty cart)
 	 */
-	public ShoppingCart(String userId, String cartId, List<Item> items) {
+	public ShoppingCart(String userId, String cartId, Instant timestamp, List<Item> items) {
 		if (items == null) {
 			this.items = new ArrayList<>();
 		} else {
@@ -38,6 +40,7 @@ public class ShoppingCart {
 			cartId = "aaaaa-00001";
 		}
 
+		this.timestamp = timestamp;
 		this.userId = userId;
 		this.cartId = cartId;
 
@@ -57,7 +60,24 @@ public class ShoppingCart {
 	 * @param items the list of items to include in the cart; if null, an empty cart will be created
 	 */
 	public ShoppingCart(List<Item> items) {
-		this(DEFAULT_USER_ID, DEFAULT_CART_ID, items);
+		this(DEFAULT_USER_ID, DEFAULT_CART_ID, Instant.now(), items );
+	}
+	
+	/**
+	 * Constructs a new ShoppingCart with the given list of items and a given timestamp,
+	 * using default values for the user ID and cart ID.
+	 * 
+	 * <p>Defaults used:
+	 * <ul>
+	 *   <li>User ID: {@value #DEFAULT_USER_ID}</li>
+	 *   <li>Cart ID: {@value #DEFAULT_CART_ID}</li>
+	 * </ul>
+	 * </p>
+	 *
+	 * @param items the list of items to include in the cart; if null, an empty cart will be created
+	 */
+	public ShoppingCart(List<Item> items, Instant timestamp) {
+		this(DEFAULT_USER_ID, DEFAULT_CART_ID, timestamp, items);
 	}
 
 	/**
@@ -85,5 +105,9 @@ public class ShoppingCart {
 
 	public String getCartId() {
 		return cartId;
+	}
+
+	public Instant getTimestamp() {
+		return timestamp;
 	}
 }
