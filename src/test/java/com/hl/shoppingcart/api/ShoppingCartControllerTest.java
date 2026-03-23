@@ -1,6 +1,8 @@
 package com.hl.shoppingcart.api;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.core.io.ClassPathResource;
@@ -38,6 +40,19 @@ public class ShoppingCartControllerTest {
 	}
 
 	@Test
+	void shouldReturn200AndCorrectTotalforOneItem() throws Exception {
+		String payload = readJson("shoppingCartPayloadOneItem.json");
+
+		mockMvc.perform(post("/api/cart/total")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(payload))
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.total").value(31.98))
+		.andExpect(jsonPath("$.userId").value("6789"))
+		.andExpect(jsonPath("$.cartId").value("fghij-12345"));
+	}
+
+	@Test
 	void shouldReturnTotal0ForEmptyCart() throws Exception {
 		String payload = readJson("shoppingCartEmpty.json");
 
@@ -56,5 +71,41 @@ public class ShoppingCartControllerTest {
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(payload))
 		.andExpect(status().isBadRequest());
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"shoppingCartInvalidMalformed.json",
+			"shoppingCartInvalidNegativePrice.json"
+	})
+	void shouldReturnBadRequestForInvalidPayloads(String fileName) throws Exception {
+		String payload = readJson(fileName);
+
+		mockMvc.perform(post("/api/cart/total")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(payload))
+		.andExpect(status().isBadRequest());
+	}
+
+	@Test
+	void shouldDefaultCurrencyWhenMissing() throws Exception {
+		String payload = readJson("shoppingCartMissingCurrency.json");
+
+		mockMvc.perform(post("/api/cart/total")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(payload))
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.total").exists());
+	}
+
+	@Test
+	void shouldHandleMissingTimestamp() throws Exception {
+		String payload = readJson("shoppingCartMissingTimestamp.json");
+
+		mockMvc.perform(post("/api/cart/total")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(payload))
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.total").value(81.97));
 	}
 }
