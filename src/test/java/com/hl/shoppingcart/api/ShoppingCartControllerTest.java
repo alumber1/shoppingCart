@@ -37,6 +37,17 @@ public class ShoppingCartControllerTest {
 				.content(payload))
 		.andExpect(jsonPath("$.total").value(81.97));
 	} 
+	
+
+	@Test
+	void shouldReturnUserIdForValidCart() throws Exception {
+		String payload = readJson("shoppingCartPayload.json");
+
+		mockMvc.perform(post("/api/cart/total")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(payload))
+		.andExpect(jsonPath("$.userId").value("12345"));
+	} 
 
 	private String readJson(String path) throws Exception {
 		ClassPathResource resource = new ClassPathResource(path);

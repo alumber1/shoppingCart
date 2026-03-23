@@ -15,10 +15,11 @@ public class ShoppingCartController {
 	@PostMapping("/total")
     public ResponseEntity<ShoppingCartResponse> calculateTotal(@RequestBody ShoppingCartRequest request) {
 
-        ShoppingCart cart = new ShoppingCart(request.items);
+        ShoppingCart cart = new ShoppingCart(request.userId, null, null, request.items);
 
         ShoppingCartResponse response = new ShoppingCartResponse();
         response.total = cart.getTotal();
+        response.userId = cart.getUserId();
 
         return ResponseEntity.ok(response);
     }
