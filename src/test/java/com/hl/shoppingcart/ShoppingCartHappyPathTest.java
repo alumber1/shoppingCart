@@ -4,6 +4,7 @@ import static com.hl.shoppingcart.TestDataHelper.DOUBLE_QUANTITY;
 import static com.hl.shoppingcart.TestDataHelper.KEYBOARD_PROD_ID;
 import static com.hl.shoppingcart.TestDataHelper.MOUSE_PROD_ID;
 import static com.hl.shoppingcart.TestDataHelper.MOUSE_PROD_NAME;
+import static com.hl.shoppingcart.TestDataHelper.KEYBOARD_PROD_NAME;
 import static com.hl.shoppingcart.TestDataHelper.PRICE_KEYBOARD;
 import static com.hl.shoppingcart.TestDataHelper.PRICE_MOUSE;
 import static com.hl.shoppingcart.TestDataHelper.SINGLE_QUANTITY;
@@ -85,6 +86,19 @@ public class ShoppingCartHappyPathTest {
 		double decimalPrice = 31.9998; 
 		ShoppingCart basket = buildCartWithItems(new Item(MOUSE_PROD_ID, MOUSE_PROD_NAME, decimalPrice, SINGLE_QUANTITY, null));
 		assertEquals(32.0, basket.getTotal(), 0.0);
+	}
+	
+	@Test
+	public void shouldRoundTotalToTwoDecimalPlacesWhenMultipleItemsArePresent() {
+		double mouseDecimalPrice = 15.219999999;
+		double keyboardDecimalPrice  = 49.56999999;
+		
+		Item mouse = new Item(MOUSE_PROD_ID, MOUSE_PROD_NAME, mouseDecimalPrice, SINGLE_QUANTITY, null);
+		Item keyboard = new Item(KEYBOARD_PROD_ID, KEYBOARD_PROD_NAME, keyboardDecimalPrice, DOUBLE_QUANTITY, null);
+		
+		ShoppingCart basket = buildCartWithItems(mouse, keyboard);
+		
+		assertEquals(114.36, basket.getTotal(), 0.0);
 	}
 
 }
