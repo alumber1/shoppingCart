@@ -72,14 +72,10 @@ public class ShoppingCartControllerTest {
 				.content(payload))
 		.andExpect(status().isBadRequest());
 	}
-
-	@ParameterizedTest
-	@ValueSource(strings = {
-			"shoppingCartInvalidMalformed.json",
-			"shoppingCartInvalidNegativePrice.json"
-	})
-	void shouldReturnBadRequestForInvalidPayloads(String fileName) throws Exception {
-		String payload = readJson(fileName);
+	
+	@Test
+	void shouldReturnBadRequestForNegativePayloads() throws Exception {
+		String payload = readJson("shoppingCartInvalidNegativePrice.json");
 
 		mockMvc.perform(post("/api/cart/total")
 				.contentType(MediaType.APPLICATION_JSON)
@@ -107,5 +103,36 @@ public class ShoppingCartControllerTest {
 				.content(payload))
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.total").value(81.97));
+	}
+	
+	@Test
+	void shouldReturnBadRequestForBrokenPayloads() throws Exception {
+		String brokenJson = """
+				{
+				  "userId": "12345"
+				  "cartId": "abcde-67890"
+				  "items": [
+				    {
+				      "productId": "SKU-001",
+				      "productName": "Wireless Mouse",
+				      "quantity": 2,
+				      "price": 15.99,
+				      "currency": "GBP"
+				    }
+				    {
+				      "productId": "SKU-002",
+				      "productName": "Mechanical Keyboard",
+				      "quantity": 1,
+				      "price": 49.99,
+				      "currency": "GBP"
+				    }
+				  "timestamp": "2025-09-12T08:45:00Z"
+				}
+				""";
+
+		mockMvc.perform(post("/api/cart/total")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(brokenJson))
+		.andExpect(status().isBadRequest());
 	}
 }
