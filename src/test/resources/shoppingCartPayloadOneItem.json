@@ -1,0 +1,14 @@
+{
+  "userId": "6789",
+  "cartId": "fghij-12345",
+  "items": [
+    {
+      "productId": "SKU-001",
+      "productName": "Wireless Mouse",
+      "quantity": 2,
+      "price": 15.99,
+      "currency": "GBP"
+    }
+  ],
+  "timestamp": "2025-09-12T08:45:00Z"
+}

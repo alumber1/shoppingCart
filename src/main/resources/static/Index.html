@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shopping Cart</title>
+</head>
+<body>
+
+<h2>Shopping Cart Total</h2>
+
+<button onclick="getTotal()">Get Total</button>
+
+<p id="result"></p>
+
+<script>
+function getTotal() {
+    fetch('/api/cart/total', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            userId: "12345",
+            cartId: "abcde-67890",
+            timestamp: "2025-09-12T08:45:00Z",
+            items: [
+                { productId: "SKU-001", productName: "Mouse", quantity: 2, price: 15.99, currency: "GBP" },
+                { productId: "SKU-002", productName: "Keyboard", quantity: 1, price: 49.99, currency: "GBP" }
+            ]
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById("result").innerText = "Total: £" + data.total;
+    })
+    .catch(error => {
+        document.getElementById("result").innerText = "Error calling API";
+    });
+}
+</script>
+
+</body>
+</html>
