@@ -19,6 +19,9 @@ public class Item {
 	 *
 	 * @param price the price of a single unit, must be >= 0
 	 * @param quantity the quantity of the item, if less than 1, it will be treated as 0
+	 * @param productId the unique identifier of the product.
+	 * @param productName the name of the product
+	 * @param currency the currency the item is being sold in
 	 * @throws IllegalArgumentException if price < 0
 	 */
 	public Item(String productId, String productName, double price, int quantity,  String currency) {
@@ -76,6 +79,11 @@ public class Item {
 		return productName;
 	}
 
+	/**
+	 * Returns the product name of this item.
+	 *
+	 * @return the currency
+	 */
 	public String getCurrency() {
 		return currency;
 	}
