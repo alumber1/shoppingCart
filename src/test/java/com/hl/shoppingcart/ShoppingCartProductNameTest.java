@@ -25,7 +25,7 @@ public class ShoppingCartProductNameTest {
 
 	@Test
 	public void shouldAllowSpecialCharactersInProductName() {
-		String specialName = "!$%^Éclair^&$*()^$% Mouse";
+		String specialName = "!£$%^&*()_+=-|\\<>,.;'#[]./Mouse";
 		ShoppingCart basket = buildCartWithItems(new Item(MOUSE_PROD_ID, specialName, PRICE_MOUSE, SINGLE_QUANTITY, GBP));
 		assertEquals(specialName, basket.getItems().get(0).getProductName());
 	}

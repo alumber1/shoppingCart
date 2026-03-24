@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
 import java.nio.file.Files;
 
@@ -25,14 +26,18 @@ public class ShoppingCartControllerTest {
 		ClassPathResource resource = new ClassPathResource(path);
 		return Files.readString(resource.getFile().toPath());
 	}
+	
+	private ResultActions postCart(String payload) throws Exception {
+	    return mockMvc.perform(post("/api/cart/total")
+	            .contentType(MediaType.APPLICATION_JSON)
+	            .content(payload));
+	}
 
 	@Test
 	void shouldReturn200AndCorrectTotalForValidCart() throws Exception {
 		String payload = readJson("shoppingCartPayload.json");
-
-		mockMvc.perform(post("/api/cart/total")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(payload))
+		
+		postCart(payload)
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.total").value(81.97))
 		.andExpect(jsonPath("$.userId").value("12345"))
@@ -43,9 +48,7 @@ public class ShoppingCartControllerTest {
 	void shouldReturn200AndCorrectTotalforOneItem() throws Exception {
 		String payload = readJson("shoppingCartPayloadOneItem.json");
 
-		mockMvc.perform(post("/api/cart/total")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(payload))
+		postCart(payload)
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.total").value(31.98))
 		.andExpect(jsonPath("$.userId").value("6789"))
@@ -55,10 +58,7 @@ public class ShoppingCartControllerTest {
 	@Test
 	void shouldReturnTotal0ForEmptyCart() throws Exception {
 		String payload = readJson("shoppingCartEmpty.json");
-
-		mockMvc.perform(post("/api/cart/total")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(payload))
+		postCart(payload)
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.total").value(0.00));
 	}
@@ -67,9 +67,7 @@ public class ShoppingCartControllerTest {
 	void shouldReturnBadRequestForInvalidPayload() throws Exception {
 		String payload = "A bad payload";
 
-		mockMvc.perform(post("/api/cart/total")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(payload))
+		postCart(payload)
 		.andExpect(status().isBadRequest());
 	}
 	
@@ -77,9 +75,7 @@ public class ShoppingCartControllerTest {
 	void shouldReturnBadRequestForNegativePayloads() throws Exception {
 		String payload = readJson("shoppingCartInvalidNegativePrice.json");
 
-		mockMvc.perform(post("/api/cart/total")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(payload))
+		postCart(payload)
 		.andExpect(status().isBadRequest());
 	}
 
@@ -87,9 +83,7 @@ public class ShoppingCartControllerTest {
 	void shouldDefaultCurrencyWhenMissing() throws Exception {
 		String payload = readJson("shoppingCartMissingCurrency.json");
 
-		mockMvc.perform(post("/api/cart/total")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(payload))
+		postCart(payload)
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.total").exists());
 	}
@@ -98,9 +92,7 @@ public class ShoppingCartControllerTest {
 	void shouldHandleMissingTimestamp() throws Exception {
 		String payload = readJson("shoppingCartMissingTimestamp.json");
 
-		mockMvc.perform(post("/api/cart/total")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(payload))
+		postCart(payload)
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.total").value(81.97));
 	}
@@ -130,9 +122,7 @@ public class ShoppingCartControllerTest {
 				}
 				""";
 
-		mockMvc.perform(post("/api/cart/total")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(brokenJson))
+		postCart(brokenJson)
 		.andExpect(status().isBadRequest());
 	}
 }
